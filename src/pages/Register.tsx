@@ -47,7 +47,7 @@ export const Register = () => {
           }
           className='mb-9 pl-[60px]'
         />
-        <Button text='Cadastrar' className='mb-9' />
+        <Button text='Cadastrar' className='mb-9 w-[400]' />
       </form>
       <Link to={'/'} className='text-secondary text-sm underline'>
         Já é cadastro? Faça login agora!

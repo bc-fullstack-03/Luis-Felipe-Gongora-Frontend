@@ -1,4 +1,4 @@
-import { Link, ScrollRestoration } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Button, Header, Input } from '../shared/components';
 import { EnvelopeSimple, Lock } from '@phosphor-icons/react';
 
@@ -31,12 +31,11 @@ const Login = () => {
           }
           className='mb-9 pl-[60px]'
         />
-        <Button text='Entrar' className='mb-9' />
+        <Button text='Entrar' className='mb-9 w-[400]' />
       </form>
       <Link to={'/'} className='text-secondary text-sm underline'>
         Não possui conta? Crie uma agora!
       </Link>
-      <ScrollRestoration />
     </div>
   );
 };
