@@ -1,13 +1,28 @@
 import { Link } from 'react-router-dom';
-import { Button, Header, Input } from '../shared/components';
+import { ToastContainer } from 'react-toastify';
 import { EnvelopeSimple, Lock } from '@phosphor-icons/react';
 
-const Login = () => {
+import { useForm } from '../shared/hooks/useForm';
+import { Button, Header, Input } from '../shared/components';
+
+export const SignIn = () => {
+  const initialState = {
+    email: '',
+    password: '',
+  };
+
+  const handleSubmmit = async () => {
+    console.log(values);
+  };
+
+  const { onChange, onSubmit, values } = useForm(handleSubmmit, initialState);
+
   return (
     <div className='h-screen w-screen flex justify-center items-center flex-col'>
       <Header subtitle='Faça login e comece a usar!' />
-      <form method='post' className='flex flex-col'>
+      <form onSubmit={onSubmit} className='flex flex-col'>
         <Input
+          name='email'
           label='Endereço de e-mail'
           placeholder='Digite seu e-mail'
           inputType='email'
@@ -18,8 +33,11 @@ const Login = () => {
             />
           }
           className='mb-3'
+          required
+          onChange={onChange}
         />
         <Input
+          name='password'
           label='Sua senha'
           placeholder='*********'
           inputType='password'
@@ -30,14 +48,15 @@ const Login = () => {
             />
           }
           className='mb-9 pl-[60px]'
+          required
+          onChange={onChange}
         />
-        <Button text='Entrar' className='mb-9 w-[400]' />
+        <Button text='Entrar' className='mb-9 w-[400px]' type='submit' />
       </form>
-      <Link to={'/'} className='text-secondary text-sm underline'>
+      <Link to={'/register'} className='text-secondary text-sm underline'>
         Não possui conta? Crie uma agora!
       </Link>
+      <ToastContainer theme='dark' />
     </div>
   );
 };
-
-export default Login;

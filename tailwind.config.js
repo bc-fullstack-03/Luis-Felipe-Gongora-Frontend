@@ -9,8 +9,8 @@ export default {
     colors: {
       primary: '#81D8F7',
       secondary: '#7C7C8A',
-      black: '#000000',
       black: {
+        900: '#000000',
         600: '#202024',
       },
       white: '#FFFFFF',

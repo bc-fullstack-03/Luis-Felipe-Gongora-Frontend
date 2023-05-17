@@ -1,4 +1,4 @@
-interface InputProps {
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string | undefined;
   placeholder: string | undefined;
   icon?: React.ReactNode;
@@ -12,6 +12,7 @@ export const Input = ({
   icon,
   className,
   inputType,
+  ...rest
 }: InputProps) => {
   return (
     <>
@@ -19,6 +20,7 @@ export const Input = ({
       <div className='relative'>
         {icon}
         <input
+          {...rest}
           type={inputType}
           className={`bg-black-600 rounded h-12 w-[400px] text-secondary placeholder:text-secondary pl-[52px] pr-4 py-3 text-sm focus-within:ring-2 focus-within:ring-primary ${className}`}
           placeholder={placeholder}

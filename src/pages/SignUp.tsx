@@ -3,14 +3,42 @@ import {
   IdentificationCard,
   Lock,
 } from '@phosphor-icons/react';
-import { Button, Header, Input } from '../shared/components';
-import { Link } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import { AxiosError } from 'axios';
 
-export const Register = () => {
+import { Button, Header, Input } from '../shared/components';
+import { Link, useNavigate } from 'react-router-dom';
+import { useForm } from '../shared/hooks/useForm';
+import { Api } from '../shared/services/Api';
+
+export const SignUp = () => {
+  const navigate = useNavigate();
+
+  const initialState = {
+    email: '',
+    password: '',
+    name: '',
+  };
+
+  const handleSubmmit = async () => {
+    try {
+      await Api.post('/user/create', values);
+      navigate('/login?sucess=1');
+    } catch (e: unknown) {
+      if (typeof e === 'string') {
+        toast.error(e.toUpperCase());
+      } else if (e instanceof AxiosError) {
+        toast.error(e.response?.data.message);
+      }
+    }
+  };
+
+  const { onChange, onSubmit, values } = useForm(handleSubmmit, initialState);
+
   return (
     <div className='h-screen w-screen flex justify-center items-center flex-col'>
       <Header subtitle='Registre-se agora mesmo!' />
-      <form>
+      <form onSubmit={onSubmit}>
         <Input
           label='Endereço de e-mail'
           placeholder='Digite um e-mail válido'
@@ -21,6 +49,9 @@ export const Register = () => {
               className='pointer-events-none absolute top-6 transform -translate-y-1/2 left-4 text-secondary'
             />
           }
+          name='email'
+          onChange={onChange}
+          required
           className='mb-3'
         />
         <Input
@@ -33,6 +64,9 @@ export const Register = () => {
               className='pointer-events-none absolute top-6 transform -translate-y-1/2 left-4 text-secondary'
             />
           }
+          name='name'
+          onChange={onChange}
+          required
           className='mb-3 pl-[60px]'
         />
         <Input
@@ -45,13 +79,17 @@ export const Register = () => {
               className='pointer-events-none absolute top-6 transform -translate-y-1/2 left-4 text-secondary'
             />
           }
+          name='password'
+          onChange={onChange}
+          required
           className='mb-9 pl-[60px]'
         />
-        <Button text='Cadastrar' className='mb-9 w-[400]' />
+        <Button text='Cadastrar' className='mb-9 w-[400px]' type='submit' />
       </form>
-      <Link to={'/'} className='text-secondary text-sm underline'>
+      <Link to={'/login'} className='text-secondary text-sm underline'>
         Já é cadastro? Faça login agora!
       </Link>
+      <ToastContainer theme='dark' />
     </div>
   );
 };

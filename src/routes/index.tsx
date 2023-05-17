@@ -1,20 +1,25 @@
 import { createBrowserRouter } from 'react-router-dom';
-import Login from '../pages/Login';
-import { Register } from '../pages/Register';
-import { Navbar } from '../shared/components';
+import { SignUp } from '../pages/SignUp';
+import { SignIn } from '../pages/SignIn';
+import { Home } from '../pages/Home';
+import { Friends } from '../pages/Friends';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Navbar />,
+    element: <Home />,
   },
   {
     path: '/register',
-    element: <Register />,
+    element: <SignUp />,
   },
   {
     path: '/login',
-    element: <Login />,
+    element: <SignIn />,
+  },
+  {
+    path: '/friends',
+    element: <Friends />,
   },
 ]);
 
