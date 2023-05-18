@@ -1,18 +1,46 @@
-import { Link } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
+import { AxiosError } from 'axios';
+import jwtDecode from 'jwt-decode';
+import { Link, useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 import { EnvelopeSimple, Lock } from '@phosphor-icons/react';
 
+import { api } from '../shared/services/api';
 import { useForm } from '../shared/hooks/useForm';
 import { Button, Header, Input } from '../shared/components';
+interface DecodedToken {
+  exp: string;
+  iat: string;
+  sub: string;
+}
 
 export const SignIn = () => {
+  const navigate = useNavigate();
+
   const initialState = {
     email: '',
     password: '',
   };
 
   const handleSubmmit = async () => {
-    console.log(values);
+    try {
+      await api.post('/authentication', values).then((res) => {
+        toast.success('Bem vindo ao Show-Us!');
+        const decodedToken = jwtDecode(res.data.token) as DecodedToken;
+        localStorage.setItem('token', res.data.token);
+        localStorage.setItem('userId', decodedToken.sub);
+        localStorage.setItem('userEmail', res.data.userEmail);
+        localStorage.setItem('expToken', decodedToken.exp);
+        setTimeout(() => {
+          navigate('/');
+        }, 3000);
+      });
+    } catch (e: unknown) {
+      if (typeof e === 'string') {
+        toast.error(e.toUpperCase());
+      } else if (e instanceof AxiosError) {
+        toast.error(e.response?.data.message);
+      }
+    }
   };
 
   const { onChange, onSubmit, values } = useForm(handleSubmmit, initialState);

@@ -3,11 +3,16 @@ import { SignUp } from '../pages/SignUp';
 import { SignIn } from '../pages/SignIn';
 import { Home } from '../pages/Home';
 import { Friends } from '../pages/Friends';
+import { ProtectRoute } from '../shared/services/protectRouter';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Home />,
+    element: (
+      <ProtectRoute>
+        <Home />
+      </ProtectRoute>
+    ),
   },
   {
     path: '/register',
@@ -19,7 +24,11 @@ const router = createBrowserRouter([
   },
   {
     path: '/friends',
-    element: <Friends />,
+    element: (
+      <ProtectRoute>
+        <Friends />
+      </ProtectRoute>
+    ),
   },
 ]);
 

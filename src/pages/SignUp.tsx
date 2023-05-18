@@ -9,7 +9,7 @@ import { AxiosError } from 'axios';
 import { Button, Header, Input } from '../shared/components';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from '../shared/hooks/useForm';
-import { Api } from '../shared/services/Api';
+import { api } from '../shared/services/api';
 
 export const SignUp = () => {
   const navigate = useNavigate();
@@ -22,8 +22,13 @@ export const SignUp = () => {
 
   const handleSubmmit = async () => {
     try {
-      await Api.post('/user/create', values);
-      navigate('/login?sucess=1');
+      await api.post('/user/create', values);
+      toast.success(
+        'Usuário Cadastrado com Sucesso! Você sera redirecionado para página de login!'
+      );
+      setTimeout(() => {
+        navigate('/login');
+      }, 3000);
     } catch (e: unknown) {
       if (typeof e === 'string') {
         toast.error(e.toUpperCase());
