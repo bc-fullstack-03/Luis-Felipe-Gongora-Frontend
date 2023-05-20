@@ -1,4 +1,3 @@
-import { AxiosError } from 'axios';
 import jwtDecode from 'jwt-decode';
 import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
@@ -8,38 +7,32 @@ import { api } from '../shared/services/api';
 import { useForm } from '../shared/hooks/useForm';
 import { Button, Header, Input } from '../shared/components';
 interface DecodedToken {
-  exp: string;
-  iat: string;
-  sub: string;
+  user: string;
+  profile: string;
 }
 
 export const SignIn = () => {
   const navigate = useNavigate();
 
   const initialState = {
-    email: '',
+    user: '',
     password: '',
   };
 
   const handleSubmmit = async () => {
     try {
-      await api.post('/authentication', values).then((res) => {
+      await api.post('/security/login', values).then((res) => {
         toast.success('Bem vindo ao Show-Us!');
-        const decodedToken = jwtDecode(res.data.token) as DecodedToken;
-        localStorage.setItem('token', res.data.token);
-        localStorage.setItem('userId', decodedToken.sub);
-        localStorage.setItem('userEmail', res.data.userEmail);
-        localStorage.setItem('expToken', decodedToken.exp);
+        const decodedToken = jwtDecode(res.data.accessToken) as DecodedToken;
+        localStorage.setItem('user', decodedToken.user);
+        localStorage.setItem('profile', decodedToken.profile);
+        localStorage.setItem('token', res.data.accessToken);
         setTimeout(() => {
           navigate('/');
         }, 3000);
       });
     } catch (e: unknown) {
-      if (typeof e === 'string') {
-        toast.error(e.toUpperCase());
-      } else if (e instanceof AxiosError) {
-        toast.error(e.response?.data.message);
-      }
+      toast.error('Erro ao fazer login, verifique seu e-mail e password!');
     }
   };
 
@@ -50,10 +43,10 @@ export const SignIn = () => {
       <Header subtitle='Faça login e comece a usar!' />
       <form onSubmit={onSubmit} className='flex flex-col'>
         <Input
-          name='email'
+          name='user'
           label='Endereço de e-mail'
           placeholder='Digite seu e-mail'
-          inputType='email'
+          inputType='user'
           icon={
             <EnvelopeSimple
               size={24}

@@ -15,14 +15,14 @@ export const SignUp = () => {
   const navigate = useNavigate();
 
   const initialState = {
-    email: '',
+    user: '',
     password: '',
     name: '',
   };
 
   const handleSubmmit = async () => {
     try {
-      await api.post('/user/create', values);
+      await api.post('/security/register', values);
       toast.success(
         'Usuário Cadastrado com Sucesso! Você sera redirecionado para página de login!'
       );
@@ -47,14 +47,14 @@ export const SignUp = () => {
         <Input
           label='Endereço de e-mail'
           placeholder='Digite um e-mail válido'
-          inputType='email'
+          inputType='user'
           icon={
             <EnvelopeSimple
               size={24}
               className='pointer-events-none absolute top-6 transform -translate-y-1/2 left-4 text-secondary'
             />
           }
-          name='email'
+          name='user'
           onChange={onChange}
           required
           className='mb-3'

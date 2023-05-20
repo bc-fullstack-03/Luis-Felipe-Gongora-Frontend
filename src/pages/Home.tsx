@@ -1,46 +1,46 @@
 import { ScrollRestoration } from 'react-router-dom';
-import { Navbar } from '../shared/components';
-import { UserCircle } from '@phosphor-icons/react';
-import { useEffect } from 'react';
+import { Navbar, Posts, PageHeader } from '../shared/components';
+import { useEffect, useState } from 'react';
 import { api } from '../shared/services/api';
 import { getAuthHeader } from '../shared/services/auth';
+import { ToastContainer, toast } from 'react-toastify';
+import { Post } from '../models/Post';
 
 export const Home = () => {
+  const [userName, setUserName] = useState<string>('');
+  const [posts, setPosts] = useState<Post[]>([]);
+
+  const authHeader = getAuthHeader();
+  const getPosts = async () => {
+    try {
+      const { data } = await api.get('/feed', authHeader);
+      setPosts(data);
+    } catch (e: unknown) {
+      toast.error('Erro ao atualizar o feed!');
+    }
+  };
+  const getProfile = async () => {
+    try {
+      const { data } = await api.get('/users/me', authHeader);
+      setUserName(data.profile.name);
+    } catch (e: unknown) {
+      toast.error('Erro ao obter o profile do usuário');
+    }
+  };
   useEffect(() => {
-    const res = async () => {
-      const userEmail = localStorage.getItem('userEmail');
-      if (userEmail) {
-        await api
-          .get('/user', {
-            headers: getAuthHeader(),
-            params: {
-              email: userEmail,
-            },
-          })
-          .then((res) => {
-            console.log(res);
-          });
-      }
-    };
-    res();
+    getProfile();
+    getPosts();
   }, []);
 
   return (
     <>
       <Navbar />
-      <div className='ml-[283px] mt-4'>
-        <div className='ml-5 mb-7'>
-          <h2 className='text-2xl font-bold text-white mb-[24px]'>
-            Página Inicial
-          </h2>
-          <div className='flex items-center gap-[6px]'>
-            <UserCircle size={64} weight='fill' className='text-gray-100' />
-            <p className='text-2xl font-bold text-white'>Fulano Silva</p>
-          </div>
-        </div>
-        <hr className='border-b border-secondary' />
-      </div>
+      <PageHeader userInfo hr title='Página Inicial' userName={userName} />
+      {posts.map((post) => (
+        <Posts key={post._id} post={post} />
+      ))}
       <ScrollRestoration />
+      <ToastContainer />
     </>
   );
 };

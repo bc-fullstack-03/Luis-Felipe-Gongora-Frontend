@@ -6,18 +6,10 @@ interface ProtectRouteProps {
 
 export const ProtectRoute = ({ children }: ProtectRouteProps) => {
   const auth = () => {
-    const expToken = Number(localStorage.getItem('expToken'));
-    const timestampNow = Math.floor(Date.now() / 1000);
+    const user = localStorage.getItem('user');
+    const profile = localStorage.getItem('profile');
     const token = localStorage.getItem('token');
-    const userId = localStorage.getItem('userId');
-    const userEmail = localStorage.getItem('userEmail');
-    if (
-      expToken == null ||
-      timestampNow > expToken ||
-      token == null ||
-      userId == null ||
-      userEmail == null
-    ) {
+    if (user == null || profile == null || token == null) {
       localStorage.clear();
       return false;
     } else {
