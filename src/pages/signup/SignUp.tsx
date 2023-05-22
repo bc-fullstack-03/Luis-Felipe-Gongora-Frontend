@@ -6,10 +6,10 @@ import {
 import { ToastContainer, toast } from 'react-toastify';
 import { AxiosError } from 'axios';
 
-import { Button, Header, Input } from '../shared/components';
+import { Button, Header, Input } from '../../shared/components';
 import { Link, useNavigate } from 'react-router-dom';
-import { useForm } from '../shared/hooks/useForm';
-import { api } from '../shared/services/api';
+import { useForm } from '../../shared/hooks/useForm';
+import { api } from '../../shared/services/api';
 
 export const SignUp = () => {
   const navigate = useNavigate();

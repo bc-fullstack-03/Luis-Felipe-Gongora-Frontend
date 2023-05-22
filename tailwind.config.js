@@ -18,6 +18,7 @@ export default {
         50: '#EEEEEE',
         100: '#E1E1E6',
       },
+      red: '#ff0000',
     },
     extend: {},
   },

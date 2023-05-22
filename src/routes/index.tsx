@@ -1,9 +1,10 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { SignUp } from '../pages/SignUp';
-import { SignIn } from '../pages/SignIn';
-import { Home } from '../pages/Home';
-import { Friends } from '../pages/Friends';
+import { SignUp } from '../pages/signup/SignUp';
+import { SignIn } from '../pages/signin/SignIn';
+import { Home } from '../pages/home/Home';
+import { Friends } from '../pages/friends/Friends';
 import { ProtectRoute } from '../shared/services/protectRouter';
+import { Profile } from '../pages/profile/Profile';
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,14 @@ const router = createBrowserRouter([
     element: (
       <ProtectRoute>
         <Friends />
+      </ProtectRoute>
+    ),
+  },
+  {
+    path: '/profile',
+    element: (
+      <ProtectRoute>
+        <Profile />
       </ProtectRoute>
     ),
   },

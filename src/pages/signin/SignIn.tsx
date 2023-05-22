@@ -3,9 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import { EnvelopeSimple, Lock } from '@phosphor-icons/react';
 
-import { api } from '../shared/services/api';
-import { useForm } from '../shared/hooks/useForm';
-import { Button, Header, Input } from '../shared/components';
+import { api } from '../../shared/services/api';
+import { useForm } from '../../shared/hooks/useForm';
+import { Button, Header, Input } from '../../shared/components';
 interface DecodedToken {
   user: string;
   profile: string;

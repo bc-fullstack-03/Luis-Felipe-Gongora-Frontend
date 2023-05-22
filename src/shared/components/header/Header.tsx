@@ -1,4 +1,4 @@
-import logo from '../../assets/images/parrot-logo.svg';
+import logo from '../../../assets/images/parrot-logo.svg';
 
 interface HeaderProps {
   subtitle: string;

@@ -1,14 +1,15 @@
 import { ScrollRestoration } from 'react-router-dom';
-import { Navbar, Posts, PageHeader } from '../shared/components';
+import { Navbar, Posts, PageHeader } from '../../shared/components';
 import { useEffect, useState } from 'react';
-import { api } from '../shared/services/api';
-import { getAuthHeader } from '../shared/services/auth';
+import { api } from '../../shared/services/api';
+import { getAuthHeader } from '../../shared/services/auth';
 import { ToastContainer, toast } from 'react-toastify';
-import { Post } from '../models/Post';
+import { Post } from '../../models/Post';
 
 export const Home = () => {
   const [userName, setUserName] = useState<string>('');
   const [posts, setPosts] = useState<Post[]>([]);
+  const [update, setUpdate] = useState<boolean>();
 
   const authHeader = getAuthHeader();
   const getPosts = async () => {
@@ -27,14 +28,17 @@ export const Home = () => {
       toast.error('Erro ao obter o profile do usuário');
     }
   };
+  const handleUpdatePosts = () => {
+    setUpdate((state) => !state);
+  };
   useEffect(() => {
     getProfile();
     getPosts();
-  }, []);
+  }, [update]);
 
   return (
     <>
-      <Navbar />
+      <Navbar handleUpdatePosts={handleUpdatePosts} />
       <PageHeader userInfo hr title='Página Inicial' userName={userName} />
       {posts.map((post) => (
         <Posts key={post._id} post={post} />

@@ -1,9 +1,23 @@
 import { NavLink } from 'react-router-dom';
-import logo from '../../assets/images/parrot-nav.svg';
+import logo from '../../../assets/images/parrot-nav.svg';
+import { useState } from 'react';
 import { House, User, UsersThree } from '@phosphor-icons/react';
-import { Button } from '.';
+import { Button, Modal } from '..';
 
-export const Navbar = () => {
+interface NavbarProps {
+  handleUpdatePosts: () => void;
+}
+
+export const Navbar = ({ handleUpdatePosts }: NavbarProps) => {
+  const [showModal, setShowModal] = useState<boolean>(false);
+
+  const handleModal = () => {
+    setShowModal((state) => !state);
+  };
+
+  const updatePosts = () => {
+    handleUpdatePosts();
+  };
   return (
     <>
       <div className='fixed top-0 w-[283px] h-screen border-r border-r-secondary'>
@@ -70,9 +84,14 @@ export const Navbar = () => {
               </NavLink>
             </li>
           </ul>
-          <Button text='Novo Post' />
+          <Button onClick={handleModal} text='Novo Post' />
         </div>
       </div>
+      <Modal
+        handleModal={handleModal}
+        modal={showModal}
+        updatePosts={updatePosts}
+      />
     </>
   );
 };

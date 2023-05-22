@@ -1,5 +1,5 @@
 import { UserCircle } from '@phosphor-icons/react';
-import { Button } from '.';
+import { Button } from '..';
 import { useNavigate } from 'react-router-dom';
 
 interface PageHeaderProps {

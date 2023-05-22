@@ -1,5 +1,5 @@
 import { Chat, Heart, UserCircle } from '@phosphor-icons/react';
-import { Post } from '../../models/Post';
+import { Post } from '../../../models/Post';
 
 interface PostsProps {
   post: Post;
