@@ -4,5 +4,7 @@ export * from './button/Button';
 export * from './navbar/Navbar';
 export * from './posts/Posts';
 export * from './page-header/PageHeader';
-export * from './modal/Modal';
+export * from './modal-post/ModalPost';
 export * from './dropzone/Dropzone';
+export * from './forms/Forms';
+export * from './friend-list/FriendList';

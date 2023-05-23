@@ -1,6 +1,7 @@
-import { UserCircle } from '@phosphor-icons/react';
-import { Button } from '..';
 import { useNavigate } from 'react-router-dom';
+import { UserCircle } from '@phosphor-icons/react';
+
+import { Button } from '..';
 
 interface PageHeaderProps {
   userName?: string;
@@ -27,7 +28,12 @@ export const PageHeader = ({
       <div className='ml-5 mb-7'>
         <div className='flex justify-between mr-5'>
           <h1 className='text-2xl font-bold text-white mb-[24px]'>{title}</h1>
-          <Button onClick={logout} className='p-2 rounded-full' text='Logout' />
+          <Button
+            onClick={logout}
+            type='button'
+            className='p-2 rounded-full'
+            text='Logout'
+          />
         </div>
         {userInfo && (
           <div className='flex items-center gap-[6px]'>

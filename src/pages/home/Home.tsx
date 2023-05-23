@@ -1,10 +1,11 @@
-import { ScrollRestoration } from 'react-router-dom';
-import { Navbar, Posts, PageHeader } from '../../shared/components';
 import { useEffect, useState } from 'react';
+import { ScrollRestoration } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+
+import { Post } from '../../models/Post';
 import { api } from '../../shared/services/api';
 import { getAuthHeader } from '../../shared/services/auth';
-import { ToastContainer, toast } from 'react-toastify';
-import { Post } from '../../models/Post';
+import { Navbar, Posts, PageHeader } from '../../shared/components';
 
 export const Home = () => {
   const [userName, setUserName] = useState<string>('');
@@ -16,7 +17,6 @@ export const Home = () => {
     try {
       const { data } = await api.get('/feed', authHeader);
       setPosts(data);
-      console.log(data);
     } catch (e: unknown) {
       toast.error('Erro ao atualizar o feed!');
     }
@@ -25,11 +25,14 @@ export const Home = () => {
     try {
       const { data } = await api.get('/users/me', authHeader);
       setUserName(data.profile.name);
-      toast.success(`Bem vindo ${data.profile.name}!`, {
-        autoClose: 2500,
-        closeOnClick: true,
-        pauseOnHover: false,
-      });
+      if (!localStorage.getItem('welcome')) {
+        toast.success(`Bem vindo ${data.profile.name}!`, {
+          autoClose: 2500,
+          closeOnClick: true,
+          pauseOnHover: false,
+        });
+      }
+      localStorage.setItem('welcome', 'true');
     } catch (e: unknown) {
       toast.error('Erro ao obter o profile do usuário');
     }
@@ -37,6 +40,7 @@ export const Home = () => {
   const handleUpdatePosts = () => {
     setUpdate((state) => !state);
   };
+
   useEffect(() => {
     getProfile();
     getPosts();

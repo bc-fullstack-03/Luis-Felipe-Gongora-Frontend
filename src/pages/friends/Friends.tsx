@@ -1,10 +1,11 @@
-import { Button, Navbar, PageHeader } from '../../shared/components';
 import { useEffect, useState } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
-import { getAuthHeader } from '../../shared/services/auth';
-import { api } from '../../shared/services/api';
-import { User } from '../../models/User';
 import { UserCircle } from '@phosphor-icons/react';
+import { ToastContainer, toast } from 'react-toastify';
+
+import { User } from '../../models/User';
+import { api } from '../../shared/services/api';
+import { getAuthHeader } from '../../shared/services/auth';
+import { Button, Navbar, PageHeader } from '../../shared/components';
 
 export const Friends = () => {
   const [followingList, setFollowingList] = useState<User[]>([]);

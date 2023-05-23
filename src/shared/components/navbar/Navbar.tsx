@@ -1,8 +1,10 @@
-import { NavLink } from 'react-router-dom';
-import logo from '../../../assets/images/parrot-nav.svg';
 import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import { House, User, UsersThree } from '@phosphor-icons/react';
-import { Button, Modal } from '..';
+
+import { Button, ModalPost } from '..';
+import { ToastContainer, toast } from 'react-toastify';
+import logo from '../../../assets/images/parrot-nav.svg';
 
 interface NavbarProps {
   handleUpdatePosts?: () => void;
@@ -17,6 +19,11 @@ export const Navbar = ({ handleUpdatePosts }: NavbarProps) => {
 
   const updatePosts = () => {
     if (handleUpdatePosts) handleUpdatePosts();
+    toast.success('Post criado com sucesso!', {
+      autoClose: 2500,
+      closeOnClick: true,
+      pauseOnHover: false,
+    });
   };
   return (
     <>
@@ -87,11 +94,12 @@ export const Navbar = ({ handleUpdatePosts }: NavbarProps) => {
           <Button onClick={handleModal} text='Novo Post' />
         </div>
       </div>
-      <Modal
+      <ModalPost
         handleModal={handleModal}
         modal={showModal}
         updatePosts={updatePosts}
       />
+      <ToastContainer theme='dark' />
     </>
   );
 };

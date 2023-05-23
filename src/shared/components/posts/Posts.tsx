@@ -1,4 +1,5 @@
 import { Chat, Heart, UserCircle } from '@phosphor-icons/react';
+
 import { Post } from '../../../models/Post';
 
 interface PostsProps {
@@ -9,7 +10,7 @@ export const Posts = ({ post }: PostsProps) => {
   return (
     <div className='ml-[283px] mt-5'>
       <div className='flex items-center gap-[6px] ml-5'>
-        <UserCircle size={64} weight='fill' className='text-gray-100' />
+        <UserCircle size={64} className='text-gray-100' />
         <span className='text-2xl font-bold text-white'>
           {post.profile.name}
         </span>

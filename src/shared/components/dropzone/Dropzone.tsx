@@ -22,7 +22,7 @@ export const Dropzone = ({ onFileUploaded }: DropzoneProps) => {
 
   return (
     <div
-      className='flex justify-center items-center mt-4 mb-9'
+      className='flex justify-center items-center mt-4 mb-7'
       {...getRootProps()}
     >
       <input name='file' {...getInputProps()} />
