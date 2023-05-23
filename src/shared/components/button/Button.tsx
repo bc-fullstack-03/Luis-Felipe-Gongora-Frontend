@@ -1,9 +1,5 @@
 export interface ButtonProps
-  extends React.DetailedHTMLProps<
-      React.ButtonHTMLAttributes<HTMLButtonElement>,
-      HTMLButtonElement
-    >,
-    React.AriaAttributes {
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   text: string | React.ReactNode;
   className?: string | undefined;
   defaultB?: boolean | undefined;

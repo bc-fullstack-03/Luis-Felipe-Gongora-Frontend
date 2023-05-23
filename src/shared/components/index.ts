@@ -5,3 +5,4 @@ export * from './navbar/Navbar';
 export * from './posts/Posts';
 export * from './page-header/PageHeader';
 export * from './modal/Modal';
+export * from './dropzone/Dropzone';

@@ -16,6 +16,7 @@ export const Home = () => {
     try {
       const { data } = await api.get('/feed', authHeader);
       setPosts(data);
+      console.log(data);
     } catch (e: unknown) {
       toast.error('Erro ao atualizar o feed!');
     }
@@ -24,6 +25,11 @@ export const Home = () => {
     try {
       const { data } = await api.get('/users/me', authHeader);
       setUserName(data.profile.name);
+      toast.success(`Bem vindo ${data.profile.name}!`, {
+        autoClose: 2500,
+        closeOnClick: true,
+        pauseOnHover: false,
+      });
     } catch (e: unknown) {
       toast.error('Erro ao obter o profile do usuário');
     }
@@ -44,7 +50,7 @@ export const Home = () => {
         <Posts key={post._id} post={post} />
       ))}
       <ScrollRestoration />
-      <ToastContainer />
+      <ToastContainer theme='dark' />
     </>
   );
 };

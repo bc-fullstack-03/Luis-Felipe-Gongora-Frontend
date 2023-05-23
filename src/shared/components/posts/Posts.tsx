@@ -16,9 +16,18 @@ export const Posts = ({ post }: PostsProps) => {
       </div>
       <div className='flex flex-col ml-[91px] mb-7'>
         <h2 className='text-xl font-bold text-white'>{post.title}</h2>
-        <p className='text-base font-normal text-gray-100 mb-5'>
-          {post.description}
-        </p>
+        {post.image ? (
+          <img
+            className='max-w-xs rounded-lg mb-5'
+            src={`http://localhost:9000/${post.description}`}
+            alt=''
+          />
+        ) : (
+          <p className='text-base font-normal text-gray-100 mb-5'>
+            {post.description}
+          </p>
+        )}
+
         <div className='flex w-[236px] justify-between'>
           <button className='flex gap-2 items-center'>
             <Chat size={32} className='text-gray-100' />

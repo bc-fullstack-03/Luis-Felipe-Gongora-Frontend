@@ -1,52 +1,75 @@
+import * as yup from 'yup';
 import jwtDecode from 'jwt-decode';
 import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import { EnvelopeSimple, Lock } from '@phosphor-icons/react';
+import { FormEvent } from 'react';
 
 import { api } from '../../shared/services/api';
-import { useForm } from '../../shared/hooks/useForm';
 import { Button, Header, Input } from '../../shared/components';
 interface DecodedToken {
   user: string;
   profile: string;
 }
 
+interface SigninFormElements extends HTMLFormControlsCollection {
+  user: HTMLInputElement;
+  password: HTMLInputElement;
+}
+
+interface SigninFormElement extends HTMLFormElement {
+  readonly elements: SigninFormElements;
+}
+
 export const SignIn = () => {
   const navigate = useNavigate();
 
-  const initialState = {
-    user: '',
-    password: '',
-  };
+  const formValidationSchema = yup.object().shape({
+    user: yup.string().required().min(3),
+    password: yup.string().required().min(3),
+  });
 
-  const handleSubmmit = async () => {
+  const handleSubmmit = async (e: FormEvent<SigninFormElement>) => {
+    e.preventDefault();
+
+    const form = e.currentTarget;
+
+    const data = {
+      user: form.elements.user.value,
+      password: form.elements.password.value,
+    };
+
     try {
-      await api.post('/security/login', values).then((res) => {
-        toast.success('Bem vindo ao Show-Us!');
+      await api.post('/security/login', data).then((res) => {
         const decodedToken = jwtDecode(res.data.accessToken) as DecodedToken;
         localStorage.setItem('user', decodedToken.user);
         localStorage.setItem('profile', decodedToken.profile);
         localStorage.setItem('token', res.data.accessToken);
-        setTimeout(() => {
-          navigate('/');
-        }, 3000);
+        (form.elements.user.value = ''), (form.elements.password.value = '');
+        navigate('/');
       });
     } catch (e: unknown) {
-      toast.error('Erro ao fazer login, verifique seu e-mail e password!');
+      toast.error(
+        'Erro ao fazer login. Verifique seu e-mail e password ou se ainda não é registrado cadastre-se agora!',
+        {
+          autoClose: 2500,
+          closeOnClick: true,
+          pauseOnHover: false,
+        }
+      );
+      form.elements.password.value = '';
     }
   };
-
-  const { onChange, onSubmit, values } = useForm(handleSubmmit, initialState);
 
   return (
     <div className='h-screen w-screen flex justify-center items-center flex-col'>
       <Header subtitle='Faça login e comece a usar!' />
-      <form onSubmit={onSubmit} className='flex flex-col'>
+      <form onSubmit={handleSubmmit} className='flex flex-col'>
         <Input
-          name='user'
           label='Endereço de e-mail'
           placeholder='Digite seu e-mail'
-          inputType='user'
+          type='email'
+          name='user'
           icon={
             <EnvelopeSimple
               size={24}
@@ -55,13 +78,12 @@ export const SignIn = () => {
           }
           className='mb-3'
           required
-          onChange={onChange}
         />
         <Input
-          name='password'
           label='Sua senha'
           placeholder='*********'
-          inputType='password'
+          type='password'
+          name='password'
           icon={
             <Lock
               size={32}
@@ -70,7 +92,6 @@ export const SignIn = () => {
           }
           className='mb-9 pl-[60px]'
           required
-          onChange={onChange}
         />
         <Button text='Entrar' className='mb-9 w-[400px]' type='submit' />
       </form>

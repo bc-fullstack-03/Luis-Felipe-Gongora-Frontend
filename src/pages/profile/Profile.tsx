@@ -64,7 +64,10 @@ export const Profile = () => {
               </div>
             ) : (
               profile?.following.map((f) => (
-                <div className='flex w-full h-full gap-1 items-center justify-center shadow-sm shadow-black-900 rounded-3xl hover:bg-black-600'>
+                <div
+                  key={profile._id}
+                  className='flex w-full h-full gap-1 items-center justify-center shadow-sm shadow-black-900 rounded-3xl hover:bg-black-600'
+                >
                   <UserRectangle
                     size={128}
                     weight='fill'
@@ -105,7 +108,10 @@ export const Profile = () => {
               </div>
             ) : (
               profile?.followers.map((f) => (
-                <div className='flex w-full h-full gap-1 items-center justify-center shadow-sm shadow-black-900 rounded-3xl hover:bg-black-600'>
+                <div
+                  key={profile._id}
+                  className='flex w-full h-full gap-1 items-center justify-center shadow-sm shadow-black-900 rounded-3xl hover:bg-black-600'
+                >
                   <UserRectangle
                     size={128}
                     weight='fill'

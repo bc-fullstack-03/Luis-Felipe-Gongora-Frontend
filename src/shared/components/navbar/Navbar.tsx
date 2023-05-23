@@ -5,7 +5,7 @@ import { House, User, UsersThree } from '@phosphor-icons/react';
 import { Button, Modal } from '..';
 
 interface NavbarProps {
-  handleUpdatePosts: () => void;
+  handleUpdatePosts?: () => void;
 }
 
 export const Navbar = ({ handleUpdatePosts }: NavbarProps) => {
@@ -16,7 +16,7 @@ export const Navbar = ({ handleUpdatePosts }: NavbarProps) => {
   };
 
   const updatePosts = () => {
-    handleUpdatePosts();
+    if (handleUpdatePosts) handleUpdatePosts();
   };
   return (
     <>

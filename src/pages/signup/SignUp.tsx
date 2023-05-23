@@ -5,24 +5,38 @@ import {
 } from '@phosphor-icons/react';
 import { ToastContainer, toast } from 'react-toastify';
 import { AxiosError } from 'axios';
+import { FormEvent } from 'react';
 
 import { Button, Header, Input } from '../../shared/components';
 import { Link, useNavigate } from 'react-router-dom';
-import { useForm } from '../../shared/hooks/useForm';
 import { api } from '../../shared/services/api';
+
+interface SignupFormElements extends HTMLFormControlsCollection {
+  user: HTMLInputElement;
+  password: HTMLInputElement;
+  name: HTMLInputElement;
+}
+
+interface SignupFormElement extends HTMLFormElement {
+  readonly elements: SignupFormElements;
+}
 
 export const SignUp = () => {
   const navigate = useNavigate();
 
-  const initialState = {
-    user: '',
-    password: '',
-    name: '',
-  };
+  const handleSubmmit = async (e: FormEvent<SignupFormElement>) => {
+    e.preventDefault();
 
-  const handleSubmmit = async () => {
+    const form = e.currentTarget;
+
+    const data = {
+      user: form.elements.user.value,
+      password: form.elements.password.value,
+      name: form.elements.name.value,
+    };
+
     try {
-      await api.post('/security/register', values);
+      await api.post('/security/register', data);
       toast.success(
         'Usuário Cadastrado com Sucesso! Você sera redirecionado para página de login!'
       );
@@ -38,16 +52,13 @@ export const SignUp = () => {
     }
   };
 
-  const { onChange, onSubmit, values } = useForm(handleSubmmit, initialState);
-
   return (
     <div className='h-screen w-screen flex justify-center items-center flex-col'>
       <Header subtitle='Registre-se agora mesmo!' />
-      <form onSubmit={onSubmit}>
+      <form onSubmit={handleSubmmit}>
         <Input
           label='Endereço de e-mail'
           placeholder='Digite um e-mail válido'
-          inputType='user'
           icon={
             <EnvelopeSimple
               size={24}
@@ -55,14 +66,13 @@ export const SignUp = () => {
             />
           }
           name='user'
-          onChange={onChange}
+          type='email'
           required
           className='mb-3'
         />
         <Input
           label='Seu nome'
           placeholder='Ex: João Carlos'
-          inputType='text'
           icon={
             <IdentificationCard
               size={24}
@@ -70,14 +80,13 @@ export const SignUp = () => {
             />
           }
           name='name'
-          onChange={onChange}
+          type='string'
           required
           className='mb-3 pl-[60px]'
         />
         <Input
           label='Sua senha'
           placeholder='*********'
-          inputType='password'
           icon={
             <Lock
               size={32}
@@ -85,7 +94,7 @@ export const SignUp = () => {
             />
           }
           name='password'
-          onChange={onChange}
+          type='password'
           required
           className='mb-9 pl-[60px]'
         />
