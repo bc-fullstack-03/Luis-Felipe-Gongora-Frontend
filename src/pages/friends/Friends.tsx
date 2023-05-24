@@ -49,7 +49,6 @@ export const Friends = () => {
           return true;
         });
         setFollowingList(filteredUsers);
-        console.log(filteredUsers);
       } catch (e: unknown) {
         toast.error('Erro ao atualizar os perfis!');
       }

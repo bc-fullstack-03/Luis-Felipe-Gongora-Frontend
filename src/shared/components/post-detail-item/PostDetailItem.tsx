@@ -1,11 +1,18 @@
-import { UserCircle } from '@phosphor-icons/react';
+import { Heart, UserCircle } from '@phosphor-icons/react';
 import { Forms, PostItem } from '..';
 import { Post } from '../../../models/Post';
-import { likePost, unlikePost } from '../../services/Posts';
+import {
+  likeComment,
+  likePost,
+  unlikeComment,
+  unlikePost,
+} from '../../services/Posts';
 import { ToastContainer, toast } from 'react-toastify';
 import { FormEvent } from 'react';
 import { api } from '../../services/api';
+import { useState } from 'react';
 import { getAuthHeader } from '../../services/auth';
+import { Comment } from '../../../models/Comment';
 
 interface PostDetailItemProps {
   post: Post;
@@ -24,6 +31,8 @@ export const PostDetailItem = ({
   post,
   setPostDetail,
 }: PostDetailItemProps) => {
+  const [comments, setComments] = useState<Comment[]>(post.comments);
+
   const userId = localStorage.getItem('profile') as string;
 
   const handleLike = async () => {
@@ -65,6 +74,42 @@ export const PostDetailItem = ({
     }
   };
 
+  const handleLikeComment = async (commentId: string, postId: string) => {
+    const [comment] = post.comments.filter((c) => c._id === commentId);
+    try {
+      if (comment && !comment.likes.includes(userId)) {
+        const newComment = await likeComment(
+          postId,
+          commentId,
+          comment,
+          userId
+        );
+        changeComments(newComment);
+      } else {
+        const newComment = await unlikeComment(
+          postId,
+          commentId,
+          comment,
+          userId
+        );
+        changeComments(newComment);
+      }
+    } catch (err) {
+      toast.error('Erro ao tentar realizar o like no comentário!', {
+        autoClose: 2500,
+        closeOnClick: true,
+        pauseOnHover: false,
+      });
+    }
+  };
+
+  const changeComments = (newComment: Comment) => {
+    setComments((comments) => {
+      const index = comments.indexOf(newComment);
+      comments[index] = newComment;
+      return [...comments];
+    });
+  };
   return (
     <>
       {post && <PostItem post={post} handleLike={handleLike} />}
@@ -80,7 +125,7 @@ export const PostDetailItem = ({
           {post.comments &&
             post.comments.map((comment) => (
               <li
-                className='my-5 p-2 border border-gray-50 rounded-lg '
+                className='my-5 p-2 border border-gray-50 rounded-lg relative'
                 key={comment._id}
               >
                 <div className='flex items-center gap-2'>
@@ -96,6 +141,20 @@ export const PostDetailItem = ({
                 <span className='text-base text-gray-50 ml-6'>
                   {comment.description}
                 </span>
+                <div className='flex items-center mr-1 mt-1 gap-1 absolute right-0 top-0'>
+                  <button
+                    onClick={() => handleLikeComment(comment._id, post._id)}
+                  >
+                    {comment.likes.includes(userId) ? (
+                      <Heart size={24} weight='fill' className='text-red' />
+                    ) : (
+                      <Heart size={24} className='text-gray-100' />
+                    )}
+                  </button>
+                  <span className='text-base font-normal text-white'>
+                    {comment.likes.length}
+                  </span>
+                </div>
               </li>
             ))}
         </ul>
