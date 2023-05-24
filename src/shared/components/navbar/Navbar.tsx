@@ -3,28 +3,27 @@ import { NavLink } from 'react-router-dom';
 import { House, User, UsersThree } from '@phosphor-icons/react';
 
 import { Button, ModalPost } from '..';
-import { ToastContainer, toast } from 'react-toastify';
+import { Post } from '../../../models/Post';
+import { ToastContainer } from 'react-toastify';
 import logo from '../../../assets/images/parrot-nav.svg';
 
 interface NavbarProps {
-  handleUpdatePosts?: () => void;
+  updatePosts?: (post: Post) => void;
 }
 
-export const Navbar = ({ handleUpdatePosts }: NavbarProps) => {
+export const Navbar = ({ updatePosts }: NavbarProps) => {
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const handleModal = () => {
     setShowModal((state) => !state);
   };
 
-  const updatePosts = () => {
-    if (handleUpdatePosts) handleUpdatePosts();
-    toast.success('Post criado com sucesso!', {
-      autoClose: 2500,
-      closeOnClick: true,
-      pauseOnHover: false,
-    });
+  const handleUpdatePosts = (post: Post) => {
+    if (updatePosts) {
+      updatePosts(post);
+    }
   };
+
   return (
     <>
       <div className='fixed top-0 w-[283px] h-screen border-r border-r-secondary'>
@@ -97,7 +96,7 @@ export const Navbar = ({ handleUpdatePosts }: NavbarProps) => {
       <ModalPost
         handleModal={handleModal}
         modal={showModal}
-        updatePosts={updatePosts}
+        updatePosts={handleUpdatePosts}
       />
       <ToastContainer theme='dark' />
     </>

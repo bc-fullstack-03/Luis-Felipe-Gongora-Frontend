@@ -14,7 +14,7 @@ export const Friends = () => {
 
   const getFollowing = async (userId: string, userName: string) => {
     try {
-      await api.post('/profiles/' + userId + '/follow', authHeader);
+      await api.post('/profiles/' + userId + '/follow', null, authHeader);
       toast.success(`Agora você segue o/a ${userName}`);
     } catch (error) {
       toast.error(`Erro ao seguir o ${userName}!`);
@@ -53,7 +53,7 @@ export const Friends = () => {
       {followingList.map((user) => (
         <div key={user._id} className='ml-[283px] mb-4'>
           <div className='flex items-center gap-[6px] ml-5 mb-[6px]'>
-            <UserCircle size={64} weight='fill' className='text-gray-100' />
+            <UserCircle size={64} className='text-gray-100' />
             <span className='text-2xl font-bold text-white'>{user.name}</span>
           </div>
           <div className='flex flex-col gap-2 mb-5'>

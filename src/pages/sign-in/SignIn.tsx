@@ -11,19 +11,19 @@ interface DecodedToken {
   profile: string;
 }
 
-interface SigninFormElements extends HTMLFormControlsCollection {
+interface SignInFormElements extends HTMLFormControlsCollection {
   user: HTMLInputElement;
   password: HTMLInputElement;
 }
 
-interface SigninFormElement extends HTMLFormElement {
-  readonly elements: SigninFormElements;
+interface SignInFormElement extends HTMLFormElement {
+  readonly elements: SignInFormElements;
 }
 
 export const SignIn = () => {
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: FormEvent<SigninFormElement>) => {
+  const handleSubmit = async (e: FormEvent<SignInFormElement>) => {
     e.preventDefault();
 
     const form = e.currentTarget;

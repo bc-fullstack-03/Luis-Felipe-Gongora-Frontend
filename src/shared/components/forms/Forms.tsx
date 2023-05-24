@@ -1,4 +1,5 @@
 import {
+  ChatText,
   EnvelopeSimple,
   IdentificationCard,
   Lock,
@@ -15,6 +16,7 @@ interface FormsProps<T extends HTMLFormElement> {
   signIn?: boolean;
   signUp?: boolean;
   newPost?: boolean;
+  newComment?: boolean;
   children?: ReactNode;
   closeModal?: () => void;
 }
@@ -28,10 +30,11 @@ export const Forms = <T extends HTMLFormElement>({
   newPost,
   children,
   closeModal,
+  newComment,
 }: FormsProps<T>) => {
   return (
     <form onSubmit={handleSubmit} className={formClassName}>
-      {signIn ? (
+      {signIn && (
         <>
           <Input
             label='Endereço de e-mail'
@@ -62,8 +65,8 @@ export const Forms = <T extends HTMLFormElement>({
             required
           />
         </>
-      ) : null}
-      {signUp ? (
+      )}
+      {signUp && (
         <>
           <Input
             label='Endereço de e-mail'
@@ -108,8 +111,8 @@ export const Forms = <T extends HTMLFormElement>({
             className='mb-9 pl-[60px]'
           />
         </>
-      ) : null}
-      {newPost ? (
+      )}
+      {newPost && (
         <>
           <Input
             icon={
@@ -141,13 +144,32 @@ export const Forms = <T extends HTMLFormElement>({
           />
           {children}
         </>
-      ) : null}
+      )}
+      {newComment && (
+        <Input
+          icon={
+            <ChatText
+              size={24}
+              weight='fill'
+              className='pointer-events-none absolute top-6 transform -translate-y-1/2 left-4 text-secondary'
+            />
+          }
+          label='Insira seu comentário'
+          placeholder='Comente este post...'
+          name='description'
+          type='string'
+          newComment
+          className='mb-3'
+        />
+      )}
       <Button
         text={submitFormButtonText}
-        className={`${newPost ? 'mb-3' : 'mb-9'} w-[400px]`}
+        className={`${newPost || newComment ? 'mb-3' : 'mb-9'} ${
+          newComment ? 'w-[550px]' : 'w-[400px]'
+        }`}
         type='submit'
       />
-      {newPost ? (
+      {newPost && (
         <Button
           type='button'
           onClick={closeModal}
@@ -155,7 +177,7 @@ export const Forms = <T extends HTMLFormElement>({
           className='w-[400px] bg-secondary rounded'
           defaultB
         />
-      ) : null}
+      )}
     </form>
   );
 };

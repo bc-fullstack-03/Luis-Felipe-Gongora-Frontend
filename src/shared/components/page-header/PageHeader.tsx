@@ -37,7 +37,7 @@ export const PageHeader = ({
         </div>
         {userInfo && (
           <div className='flex items-center gap-[6px]'>
-            <UserCircle size={64} weight='fill' className='text-gray-100' />
+            <UserCircle size={64} weight='light' className='text-gray-100' />
             <span className='text-2xl font-bold text-white'>{userName}</span>
           </div>
         )}

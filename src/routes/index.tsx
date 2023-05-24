@@ -1,10 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { SignUp } from '../pages/signup/SignUp';
-import { SignIn } from '../pages/signin/SignIn';
-import { Home } from '../pages/home/Home';
-import { Friends } from '../pages/friends/Friends';
 import { ProtectRoute } from '../shared/services/protectRouter';
-import { Profile } from '../pages/profile/Profile';
+import { Friends, Home, PostDetail, Profile, SignIn, SignUp } from '../pages';
 
 const router = createBrowserRouter([
   {
@@ -36,6 +32,14 @@ const router = createBrowserRouter([
     element: (
       <ProtectRoute>
         <Profile />
+      </ProtectRoute>
+    ),
+  },
+  {
+    path: '/posts/:postId',
+    element: (
+      <ProtectRoute>
+        <PostDetail />
       </ProtectRoute>
     ),
   },

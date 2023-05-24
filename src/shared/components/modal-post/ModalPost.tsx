@@ -3,13 +3,14 @@ import { FormEvent, useState } from 'react';
 import { XCircle } from '@phosphor-icons/react';
 
 import { api } from '../../services/api';
+import { Post } from '../../../models/Post';
 import { Button, Dropzone, Forms } from '..';
 import { getAuthHeader } from '../../services/auth';
 
 interface ModalProps {
   handleModal: () => void;
   modal: boolean;
-  updatePosts: () => void;
+  updatePosts: (post: Post) => void;
 }
 
 interface PostFormElements extends HTMLFormControlsCollection {
@@ -34,17 +35,17 @@ export const ModalPost = ({ handleModal, modal, updatePosts }: ModalProps) => {
     const authHeader = getAuthHeader();
 
     const form = e.currentTarget;
-    const data = new FormData();
+    const formData = new FormData();
 
-    data.append('title', form.elements.title.value);
-    data.append('description', form.elements.description.value);
+    formData.append('title', form.elements.title.value);
+    formData.append('description', form.elements.description.value);
     if (selectedFile) {
-      data.append('file', selectedFile);
+      formData.append('file', selectedFile);
     }
 
     try {
-      await api.post('/posts', data, authHeader);
-      updatePosts();
+      const { data } = await api.post('/posts', formData, authHeader);
+      updatePosts(data);
       closeModal();
       form.elements.description.value = '';
       form.elements.title.value = '';

@@ -3,6 +3,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   placeholder: string | undefined;
   icon?: React.ReactNode;
   className?: string | undefined;
+  newComment?: boolean;
 }
 
 export const Input = ({
@@ -10,6 +11,7 @@ export const Input = ({
   placeholder,
   icon,
   className,
+  newComment,
   ...rest
 }: InputProps) => {
   return (
@@ -19,7 +21,9 @@ export const Input = ({
         {icon}
         <input
           {...rest}
-          className={`bg-black-600 rounded h-12 w-[400px] text-secondary placeholder:text-secondary pl-[52px] pr-4 py-3 text-sm focus-within:ring-2 focus-within:ring-primary ${className}`}
+          className={`bg-black-600 rounded h-12 ${
+            newComment ? 'w-[550px]' : 'w-[400px]'
+          } text-secondary placeholder:text-secondary pl-[52px] pr-4 py-3 text-sm focus-within:ring-2 focus-within:ring-primary ${className}`}
           placeholder={placeholder}
         />
       </div>

@@ -5,19 +5,25 @@ import { api } from '../../shared/services/api';
 import { ToastContainer, toast } from 'react-toastify';
 import { UserProfile } from '../../models/UserProfile';
 import { getAuthHeader } from '../../shared/services/auth';
-import { FriendList, Navbar, PageHeader, Posts } from '../../shared/components';
+import {
+  FriendList,
+  Navbar,
+  PageHeader,
+  PostItem,
+} from '../../shared/components';
+import { likePost, unlikePost } from '../../shared/services/Posts';
 
 export const Profile = () => {
   const [profile, setProfile] = useState<UserProfile>();
   const [posts, setPosts] = useState<Post[]>([]);
 
   const authHeader = getAuthHeader();
-  const profileId = localStorage.getItem('profile');
+  const userId = localStorage.getItem('profile') as string;
   const user = localStorage.getItem('user');
 
   const getProfile = async () => {
     try {
-      const { data } = await api.get(`/profiles/${profileId}`, authHeader);
+      const { data } = await api.get(`/profiles/${userId}`, authHeader);
       setProfile(data);
     } catch (e: unknown) {
       toast.error('Erro ao atualizar o perfil!', {
@@ -31,11 +37,38 @@ export const Profile = () => {
   const getPosts = async () => {
     try {
       const { data } = await api.get('/feed', authHeader);
-      setPosts(data.filter((post: Post) => post.profile._id === profileId));
+      setPosts(data.filter((post: Post) => post.profile._id === userId));
     } catch (e: unknown) {
       toast.error('Erro ao atualizar o feed!');
     }
   };
+
+  const handleLike = async (postId: string) => {
+    const [post] = posts.filter((post) => post._id === postId);
+    try {
+      if (post && !post.likes.includes(userId)) {
+        const newPost = await likePost(post, userId);
+        changePosts(newPost);
+      } else {
+        const newPost = await unlikePost(post, userId);
+        changePosts(newPost);
+      }
+    } catch (err) {
+      toast.error('Erro ao tentar realizar o like!', {
+        autoClose: 2500,
+        closeOnClick: true,
+        pauseOnHover: false,
+      });
+    }
+  };
+
+  function changePosts(newPost: Post) {
+    setPosts((posts) => {
+      const index = posts.indexOf(newPost);
+      posts[index] = newPost;
+      return [...posts];
+    });
+  }
 
   useEffect(() => {
     getProfile();
@@ -52,7 +85,7 @@ export const Profile = () => {
         </h2>
       </div>
       {posts.map((post) => (
-        <Posts key={post._id} post={post} />
+        <PostItem key={post._id} post={post} handleLike={handleLike} />
       ))}
       <ToastContainer theme='dark' />
     </>
