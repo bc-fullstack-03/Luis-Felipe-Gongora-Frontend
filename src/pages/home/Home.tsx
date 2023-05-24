@@ -59,7 +59,11 @@ export const Home = () => {
         user: userEmail,
       },
     };
-    post.description = `http://localhost:9000/${post.description}`;
+    if (post.image) {
+      post.description = `http://localhost:9000/${post.description}`;
+    } else {
+      post.description = post.description;
+    }
     setPosts((posts) => [post, ...posts]);
     toast.success('Post criado com sucesso!', {
       autoClose: 2500,
