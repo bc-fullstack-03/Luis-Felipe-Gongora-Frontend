@@ -19,6 +19,8 @@ interface FormsProps<T extends HTMLFormElement> {
   newComment?: boolean;
   children?: ReactNode;
   closeModal?: () => void;
+  onChange?: () => void;
+  errorInput?: boolean;
 }
 
 export const Forms = <T extends HTMLFormElement>({
@@ -31,6 +33,8 @@ export const Forms = <T extends HTMLFormElement>({
   children,
   closeModal,
   newComment,
+  onChange,
+  errorInput,
 }: FormsProps<T>) => {
   return (
     <form onSubmit={handleSubmit} className={formClassName}>
@@ -39,7 +43,7 @@ export const Forms = <T extends HTMLFormElement>({
           <Input
             label='Endereço de e-mail'
             placeholder='Digite seu e-mail'
-            type='email'
+            type='string'
             name='user'
             icon={
               <EnvelopeSimple
@@ -49,6 +53,8 @@ export const Forms = <T extends HTMLFormElement>({
             }
             className='mb-3'
             required
+            errorInput={errorInput}
+            onChange={onChange}
           />
           <Input
             label='Sua senha'
@@ -63,6 +69,8 @@ export const Forms = <T extends HTMLFormElement>({
             }
             className='mb-9 pl-[60px]'
             required
+            errorInput={errorInput}
+            onChange={onChange}
           />
         </>
       )}
@@ -78,9 +86,11 @@ export const Forms = <T extends HTMLFormElement>({
               />
             }
             name='user'
-            type='email'
+            type='string'
             required
             className='mb-3'
+            errorInput={errorInput}
+            onChange={onChange}
           />
           <Input
             label='Seu nome'
@@ -95,6 +105,8 @@ export const Forms = <T extends HTMLFormElement>({
             type='string'
             required
             className='mb-3 pl-[60px]'
+            errorInput={errorInput}
+            onChange={onChange}
           />
           <Input
             label='Sua senha'
@@ -109,6 +121,8 @@ export const Forms = <T extends HTMLFormElement>({
             type='password'
             required
             className='mb-9 pl-[60px]'
+            errorInput={errorInput}
+            onChange={onChange}
           />
         </>
       )}
@@ -127,6 +141,8 @@ export const Forms = <T extends HTMLFormElement>({
             className='mb-3'
             name='title'
             type='string'
+            errorInput={errorInput}
+            onChange={onChange}
           />
           <Input
             icon={
@@ -141,6 +157,8 @@ export const Forms = <T extends HTMLFormElement>({
             name='description'
             className='mb-3'
             type='string'
+            errorInput={errorInput}
+            onChange={onChange}
           />
           {children}
         </>
@@ -160,6 +178,8 @@ export const Forms = <T extends HTMLFormElement>({
           type='string'
           newComment
           className='mb-3'
+          errorInput={errorInput}
+          onChange={onChange}
         />
       )}
       <Button

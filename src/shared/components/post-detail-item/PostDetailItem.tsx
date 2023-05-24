@@ -77,7 +77,7 @@ export const PostDetailItem = ({
   const handleLikeComment = async (commentId: string, postId: string) => {
     const [comment] = post.comments.filter((c) => c._id === commentId);
     try {
-      if (comment && !comment.likes.includes(userId)) {
+      if (comment && !comment.likes.includes(userId) && comments) {
         const newComment = await likeComment(
           postId,
           commentId,
