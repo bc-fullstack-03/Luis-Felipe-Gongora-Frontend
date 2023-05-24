@@ -36,7 +36,7 @@ export const PostItem = ({ post, handleLike }: PostsProps) => {
         </div>
         {post.image ? (
           <img
-            className='max-w-xs rounded-lg mb-5'
+            className='max-w-xs rounded-lg mb-5 mt-1'
             src={post.description}
             alt=''
           />

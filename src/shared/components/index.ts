@@ -7,5 +7,5 @@ export * from './page-header/PageHeader';
 export * from './modal-post/ModalPost';
 export * from './dropzone/Dropzone';
 export * from './forms/Forms';
-export * from './friend-list/FriendList';
+export * from './user-info/UserInfo';
 export * from './post-detail-item/PostDetailItem';

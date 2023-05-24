@@ -6,10 +6,10 @@ import { ToastContainer, toast } from 'react-toastify';
 import { UserProfile } from '../../models/UserProfile';
 import { getAuthHeader } from '../../shared/services/auth';
 import {
-  FriendList,
   Navbar,
   PageHeader,
   PostItem,
+  UserInfo,
 } from '../../shared/components';
 import { likePost, unlikePost } from '../../shared/services/Posts';
 
@@ -77,8 +77,8 @@ export const Profile = () => {
   return (
     <>
       <Navbar />
-      <PageHeader title='Perfil' />
-      <FriendList profile={profile} user={user} />
+      <PageHeader title='Meu Perfil' />
+      <UserInfo profile={profile} user={user} />
       <div className='flex justify-between mr-5'>
         <h2 className='text-2xl font-bold text-white mt-4 ml-[303px]'>
           Meus Posts
