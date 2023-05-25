@@ -5,6 +5,8 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   className?: string | undefined;
   newComment?: boolean;
   errorInput?: boolean;
+  infoError?: boolean;
+  textError?: string | undefined;
   onChange?: () => void;
 }
 
@@ -15,12 +17,19 @@ export const Input = ({
   className,
   newComment,
   errorInput,
+  infoError,
+  textError,
   onChange,
   ...rest
 }: InputProps) => {
   return (
     <>
-      <label className={`mb-2 text-gray-100 text-lg`}>{label}</label>
+      <div className='flex justify-between'>
+        <label className={`mb-2 text-gray-100 text-lg`}>{label}</label>
+        {infoError && (
+          <label className='text-red text-xs flex items-end'>{textError}</label>
+        )}
+      </div>
       <div className='relative'>
         {icon}
         <input

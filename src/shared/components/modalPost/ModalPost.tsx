@@ -1,10 +1,9 @@
 import { toast } from 'react-toastify';
 import { FormEvent, useState } from 'react';
-import { XCircle } from '@phosphor-icons/react';
 
+import { Dropzone, Forms } from '..';
 import { api } from '../../services/api';
 import { Post } from '../../../models/Post';
-import { Button, Dropzone, Forms } from '..';
 import { getAuthHeader } from '../../services/auth';
 
 interface ModalProps {
@@ -61,13 +60,6 @@ export const ModalPost = ({ handleModal, modal, updatePosts }: ModalProps) => {
         modal ? '' : 'hidden'
       }`}
     >
-      <Button
-        onClick={closeModal}
-        className='font-semibold h-[39px] active:scale-95 active:duration-200 fixed top-0 right-0 mr-5 mt-5'
-        title='Close'
-        text={<XCircle size={32} weight='fill' className='text-red' />}
-        defaultB
-      />
       <h2 className='font-bold text-[32px] text-white mb-5'>Novo post</h2>
       <Forms
         formClassName='flex flex-col'

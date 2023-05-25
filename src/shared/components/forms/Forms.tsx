@@ -21,6 +21,10 @@ interface FormsProps<T extends HTMLFormElement> {
   closeModal?: () => void;
   onChange?: () => void;
   errorInput?: boolean;
+  infoError?: boolean;
+  textErrorEmail?: string;
+  textErrorPassword?: string;
+  textErrorName?: string;
 }
 
 export const Forms = <T extends HTMLFormElement>({
@@ -35,6 +39,10 @@ export const Forms = <T extends HTMLFormElement>({
   newComment,
   onChange,
   errorInput,
+  textErrorName,
+  textErrorPassword,
+  textErrorEmail,
+  infoError,
 }: FormsProps<T>) => {
   return (
     <form onSubmit={handleSubmit} className={formClassName}>
@@ -91,6 +99,8 @@ export const Forms = <T extends HTMLFormElement>({
             className='mb-3'
             errorInput={errorInput}
             onChange={onChange}
+            infoError={infoError}
+            textError={textErrorEmail}
           />
           <Input
             label='Seu nome'
@@ -107,6 +117,8 @@ export const Forms = <T extends HTMLFormElement>({
             className='mb-3 pl-[60px]'
             errorInput={errorInput}
             onChange={onChange}
+            infoError={infoError}
+            textError={textErrorName}
           />
           <Input
             label='Sua senha'
@@ -123,6 +135,8 @@ export const Forms = <T extends HTMLFormElement>({
             className='mb-9 pl-[60px]'
             errorInput={errorInput}
             onChange={onChange}
+            infoError={infoError}
+            textError={textErrorPassword}
           />
         </>
       )}
