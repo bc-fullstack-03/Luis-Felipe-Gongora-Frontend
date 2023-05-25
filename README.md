@@ -1,6 +1,6 @@
 # Projeto Frontend Rede Social BootCamp SysMap
 
-Este é um projeto de rede social simples que permite aos usuários criar postagens, seguir outros usuários e visualizar as postagens de seus seguidores. Além disso, os usuários podem deixar comentários nas postagens e dar likes tanto nas postagens quanto nos comentários.
+Este é um projeto de rede social simples que permite aos usuários se registrarem, realizar o login, criar postagens, seguir outros usuários e visualizar as postagens de seus seguidores. Além disso, os usuários podem deixar comentários nas postagens e dar likes tanto nas postagens quanto nos comentários.
 
 ## Tecnologias Utilizadas
 
