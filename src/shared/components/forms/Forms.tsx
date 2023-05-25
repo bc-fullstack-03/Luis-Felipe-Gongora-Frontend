@@ -206,6 +206,8 @@ export const Forms = <T extends HTMLFormElement>({
           className='mb-3'
           errorInput={errorInput}
           onChange={onChange}
+          infoError={infoError}
+          textError={textError}
         />
       )}
       <Button

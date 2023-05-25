@@ -32,6 +32,7 @@ export const PostDetailItem = ({
   setPostDetail,
 }: PostDetailItemProps) => {
   const [comments, setComments] = useState<Comment[]>(post.comments);
+  const [formError, setFormError] = useState<boolean>();
 
   const userId = localStorage.getItem('profile') as string;
 
@@ -59,13 +60,22 @@ export const PostDetailItem = ({
     const data = {
       description: form.elements.description.value,
     };
-
-    try {
-      await api.post(`/posts/${post._id}/comments`, data, getAuthHeader());
-      const res = await api.get(`/posts/${post._id}`, getAuthHeader());
-      setPostDetail(res.data);
-      form.description.value = '';
-    } catch (err) {
+    if (data.description.trim().length >= 3) {
+      try {
+        await api.post(`/posts/${post._id}/comments`, data, getAuthHeader());
+        const res = await api.get(`/posts/${post._id}`, getAuthHeader());
+        setPostDetail(res.data);
+        form.description.value = '';
+      } catch (err) {
+        toast.error('Erro ao realizar o comentário!', {
+          autoClose: 2500,
+          closeOnClick: true,
+          pauseOnHover: false,
+        });
+        setFormError(true);
+      }
+    } else {
+      setFormError(true);
       toast.error('Erro ao realizar o comentário!', {
         autoClose: 2500,
         closeOnClick: true,
@@ -118,6 +128,10 @@ export const PostDetailItem = ({
         submitFormButtonText='Comentar'
         formClassName='ml-[303px] mt-4'
         newComment
+        errorInput={formError}
+        infoError={formError}
+        textError='* O comentário deve ter no mínimo 3 caracteres *'
+        onChange={() => setFormError(false)}
       />
       <section className='ml-[283px] mt-4 w-[568px]'>
         <h2 className='ml-5 text-2xl font-bold text-white'>Comentários</h2>

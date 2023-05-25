@@ -24,7 +24,7 @@ export const Input = ({
 }: InputProps) => {
   return (
     <>
-      <div className='flex justify-between'>
+      <div className={`flex justify-between ${newComment && 'w-[550px]'}`}>
         <label className={`mb-2 text-gray-100 text-lg`}>{label}</label>
         {infoError && (
           <label className='text-red text-xs flex items-end'>{textError}</label>
