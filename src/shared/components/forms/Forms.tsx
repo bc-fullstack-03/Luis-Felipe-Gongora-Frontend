@@ -22,9 +22,13 @@ interface FormsProps<T extends HTMLFormElement> {
   onChange?: () => void;
   errorInput?: boolean;
   infoError?: boolean;
+  errorInputTitle?: boolean;
+  infoErrorTitle?: boolean;
   textErrorEmail?: string;
   textErrorPassword?: string;
   textErrorName?: string;
+  textErrorTitle?: string;
+  textError?: string;
 }
 
 export const Forms = <T extends HTMLFormElement>({
@@ -39,9 +43,13 @@ export const Forms = <T extends HTMLFormElement>({
   newComment,
   onChange,
   errorInput,
+  errorInputTitle,
+  infoErrorTitle,
   textErrorName,
   textErrorPassword,
   textErrorEmail,
+  textErrorTitle,
+  textError,
   infoError,
 }: FormsProps<T>) => {
   return (
@@ -155,8 +163,10 @@ export const Forms = <T extends HTMLFormElement>({
             className='mb-3'
             name='title'
             type='string'
-            errorInput={errorInput}
+            errorInput={errorInputTitle}
             onChange={onChange}
+            infoError={infoErrorTitle}
+            textError={textErrorTitle}
           />
           <Input
             icon={
@@ -173,6 +183,8 @@ export const Forms = <T extends HTMLFormElement>({
             type='string'
             errorInput={errorInput}
             onChange={onChange}
+            infoError={infoError}
+            textError={textError}
           />
           {children}
         </>

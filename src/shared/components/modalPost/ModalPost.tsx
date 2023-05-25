@@ -23,6 +23,8 @@ interface PostFormElement extends HTMLFormElement {
 
 export const ModalPost = ({ handleModal, modal, updatePosts }: ModalProps) => {
   const [selectedFile, setSelectedFileUrl] = useState<File | undefined>();
+  const [formError, setFormError] = useState<boolean>();
+  const [titleError, setTitleError] = useState<boolean>();
 
   const closeModal = () => {
     handleModal();
@@ -42,16 +44,66 @@ export const ModalPost = ({ handleModal, modal, updatePosts }: ModalProps) => {
       formData.append('file', selectedFile);
     }
 
-    try {
-      const { data } = await api.post('/posts', formData, authHeader);
-      updatePosts(data);
-      closeModal();
-      form.elements.description.value = '';
-      form.elements.title.value = '';
-    } catch (e: unknown) {
-      toast.error(
-        'Falha ao criar o post, verifique se o título e a descrição não estão vazios!'
-      );
+    if (!selectedFile) {
+      if (
+        form.elements.title.value.trim().length &&
+        form.elements.description.value.trim().length >= 3
+      ) {
+        try {
+          const { data } = await api.post('/posts', formData, authHeader);
+          updatePosts(data);
+          closeModal();
+          form.elements.description.value = '';
+          form.elements.title.value = '';
+        } catch (e: unknown) {
+          toast.error(
+            'Falha ao criar o post, verifique os itens marcados com *',
+            {
+              autoClose: 2500,
+              closeOnClick: true,
+              pauseOnHover: false,
+            }
+          );
+          setFormError(true);
+          setTitleError(true);
+        }
+      } else {
+        setFormError(true);
+        setTitleError(true);
+        toast.error(
+          'Falha ao criar o post, verifique os itens marcados com *',
+          {
+            autoClose: 2500,
+            closeOnClick: true,
+            pauseOnHover: false,
+          }
+        );
+      }
+    } else if (form.elements.title.value.trim().length >= 3) {
+      try {
+        const { data } = await api.post('/posts', formData, authHeader);
+        updatePosts(data);
+        closeModal();
+        form.elements.description.value = '';
+        form.elements.title.value = '';
+      } catch (e: unknown) {
+        toast.error(
+          'Falha ao criar o post, verifique os itens marcados com *',
+          {
+            autoClose: 2500,
+            closeOnClick: true,
+            pauseOnHover: false,
+          }
+        );
+        setTitleError(true);
+      }
+    } else {
+      setTitleError(true);
+      toast.error('Falha ao criar o post, verifique os itens marcados com *', {
+        autoClose: 2500,
+        closeOnClick: true,
+        pauseOnHover: false,
+      });
     }
   };
   return (
@@ -68,6 +120,16 @@ export const ModalPost = ({ handleModal, modal, updatePosts }: ModalProps) => {
         children={<Dropzone onFileUploaded={setSelectedFileUrl} />}
         newPost
         closeModal={closeModal}
+        errorInput={formError}
+        infoError={formError}
+        errorInputTitle={titleError}
+        infoErrorTitle={titleError}
+        textErrorTitle='* O Título deve ter no mínimo 3 letras *'
+        textError='* A Descrição deve ter no mínimo 3 letras *'
+        onChange={() => {
+          setFormError(false);
+          setTitleError(false);
+        }}
       />
     </div>
   );
